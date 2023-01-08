@@ -3,7 +3,7 @@ $(shell if [ ! -e bin ]; then mkdir bin; fi)
 $(shell if [ ! -e build ]; then mkdir build; fi)
 $(shell if [ ! -e lib/linux ]; then mkdir -p lib/linux; fi)
 
-FLAGS = -O0 -g
+FLAGS = -O3
 
 all: bin/example.out lib/linux/libjsoncpp.a
 
