@@ -1,0 +1,5 @@
+bin
+build
+lib
+win-vsproj/build
+win-vsproj/.vs

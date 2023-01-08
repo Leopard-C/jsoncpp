@@ -1,0 +1,10 @@
+{
+    "commentStyle" : "All",
+    "indentation": "\t",
+    "enableYAMLCompatibility": false,
+    "dropNullPlaceholders": false,
+    "useSpecialFloats": false,
+    "emitUTF8": true,
+    "precision": 17,
+    "precisionType": "significant"
+}
