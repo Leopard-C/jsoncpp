@@ -1433,8 +1433,11 @@ ptrdiff_t Value::getOffsetStart() const { return start_; }
 
 ptrdiff_t Value::getOffsetLimit() const { return limit_; }
 
-String Value::toStyledString() const {
+String Value::toStyledString(const Json::Value& settings/* = Json::nullValue*/) const {
   StreamWriterBuilder builder;
+  if (!settings.isNull()) {
+    builder.setSettings(settings);
+  }
 
   String out = this->hasComment(commentBefore) ? "\n" : "";
   out += Json::writeString(builder, *this);

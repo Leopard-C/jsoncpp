@@ -1912,21 +1912,22 @@ CharReader* CharReaderBuilder::newCharReader() const {
   return new OurCharReader(collectComments, features);
 }
 
+static const auto valid_keys = std::set<String>{
+  "collectComments",
+  "allowComments",
+  "allowTrailingCommas",
+  "strictRoot",
+  "allowDroppedNullPlaceholders",
+  "allowNumericKeys",
+  "allowSingleQuotes",
+  "stackLimit",
+  "failIfExtra",
+  "rejectDupKeys",
+  "allowSpecialFloats",
+  "skipBom",
+};
+
 bool CharReaderBuilder::validate(Json::Value* invalid) const {
-  static const auto& valid_keys = *new std::set<String>{
-      "collectComments",
-      "allowComments",
-      "allowTrailingCommas",
-      "strictRoot",
-      "allowDroppedNullPlaceholders",
-      "allowNumericKeys",
-      "allowSingleQuotes",
-      "stackLimit",
-      "failIfExtra",
-      "rejectDupKeys",
-      "allowSpecialFloats",
-      "skipBom",
-  };
   for (auto si = settings_.begin(); si != settings_.end(); ++si) {
     auto key = si.name();
     if (valid_keys.count(key))

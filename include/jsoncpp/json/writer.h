@@ -124,6 +124,8 @@ public:
   StreamWriterBuilder();
   ~StreamWriterBuilder() override;
 
+  void setSettings(const Json::Value& setting);
+
   /**
    * \throw std::exception if something goes wrong (e.g. invalid settings)
    */
@@ -183,7 +185,11 @@ public:
    */
   void dropNullPlaceholders();
 
+  void dropNullKeyValues();
+
   void omitEndingLineFeed();
+
+  void emitUTF8();
 
 public: // overridden from Writer
   String write(const Value& root) override;
@@ -194,7 +200,9 @@ private:
   String document_;
   bool yamlCompatibilityEnabled_{false};
   bool dropNullPlaceholders_{false};
+  bool dropNullKeyValues_{false};
   bool omitEndingLineFeed_{false};
+  bool emitUTF8_{false};
 };
 #if defined(_MSC_VER)
 #pragma warning(pop)

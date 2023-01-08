@@ -320,12 +320,13 @@ static String valueToQuotedStringN(const char* value, size_t length,
     // sequence from occurring.
     default: {
       if (emitUTF8) {
-        unsigned codepoint = static_cast<unsigned char>(*c);
-        if (codepoint < 0x20) {
-          appendHex(result, codepoint);
-        } else {
-          appendRaw(result, codepoint);
-        }
+        result += *c;
+        //unsigned codepoint = static_cast<unsigned char>(*c);
+        //if (codepoint < 0x20) {
+        //  appendHex(result, codepoint);
+        //} else {
+        //  appendRaw(result, codepoint);
+        //}
       } else {
         unsigned codepoint = utf8ToCodepoint(c, end); // modifies `c`
         if (codepoint < 0x20) {
@@ -368,7 +369,11 @@ void FastWriter::enableYAMLCompatibility() { yamlCompatibilityEnabled_ = true; }
 
 void FastWriter::dropNullPlaceholders() { dropNullPlaceholders_ = true; }
 
+void FastWriter::dropNullKeyValues() { dropNullKeyValues_ = true; }
+
 void FastWriter::omitEndingLineFeed() { omitEndingLineFeed_ = true; }
+
+void FastWriter::emitUTF8() { emitUTF8_ = true; }
 
 String FastWriter::write(const Value& root) {
   document_.clear();
@@ -399,7 +404,7 @@ void FastWriter::writeValue(const Value& value) {
     char const* end;
     bool ok = value.getString(&str, &end);
     if (ok)
-      document_ += valueToQuotedStringN(str, static_cast<size_t>(end - str));
+      document_ += valueToQuotedStringN(str, static_cast<size_t>(end - str), emitUTF8_);
     break;
   }
   case booleanValue:
@@ -418,13 +423,22 @@ void FastWriter::writeValue(const Value& value) {
   case objectValue: {
     Value::Members members(value.getMemberNames());
     document_ += '{';
+    bool isFirst = true;
     for (auto it = members.begin(); it != members.end(); ++it) {
       const String& name = *it;
-      if (it != members.begin())
+      const Json::Value& child = value[name];
+      if (child.isNull() && dropNullKeyValues_) {
+        continue;
+      }
+      if (!isFirst) {
         document_ += ',';
-      document_ += valueToQuotedStringN(name.data(), name.length());
+      }
+      else {
+        isFirst = false;
+      }
+      document_ += valueToQuotedStringN(name.data(), name.length(), emitUTF8_);
       document_ += yamlCompatibilityEnabled_ ? ": " : ":";
-      writeValue(value[name]);
+      writeValue(child);
     }
     document_ += '}';
   } break;
@@ -1202,17 +1216,27 @@ StreamWriter* StreamWriterBuilder::newStreamWriter() const {
                                      precisionType);
 }
 
+static const auto valid_keys = std::set<String>{
+  "indentation",
+  "commentStyle",
+  "enableYAMLCompatibility",
+  "dropNullPlaceholders",
+  "useSpecialFloats",
+  "emitUTF8",
+  "precision",
+  "precisionType",
+};
+
+void StreamWriterBuilder::setSettings(const Json::Value& setting) {
+  for (auto si = setting.begin(); si != setting.end(); ++si) {
+    auto key = si.name();
+    if (valid_keys.count(key)) {
+      settings_[key] = setting[key];
+    }
+  }
+}
+
 bool StreamWriterBuilder::validate(Json::Value* invalid) const {
-  static const auto& valid_keys = *new std::set<String>{
-      "indentation",
-      "commentStyle",
-      "enableYAMLCompatibility",
-      "dropNullPlaceholders",
-      "useSpecialFloats",
-      "emitUTF8",
-      "precision",
-      "precisionType",
-  };
   for (auto si = settings_.begin(); si != settings_.end(); ++si) {
     auto key = si.name();
     if (valid_keys.count(key))
@@ -1236,7 +1260,7 @@ void StreamWriterBuilder::setDefaults(Json::Value* settings) {
   (*settings)["enableYAMLCompatibility"] = false;
   (*settings)["dropNullPlaceholders"] = false;
   (*settings)["useSpecialFloats"] = false;
-  (*settings)["emitUTF8"] = false;
+  (*settings)["emitUTF8"] = true;
   (*settings)["precision"] = 17;
   (*settings)["precisionType"] = "significant";
   //! [StreamWriterBuilderDefaults]

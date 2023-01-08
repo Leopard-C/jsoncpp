@@ -577,7 +577,7 @@ public:
   /// Include delimiters and embedded newlines.
   String getComment(CommentPlacement placement) const;
 
-  String toStyledString() const;
+  String toStyledString(const Json::Value& settings = Json::nullValue) const;
 
   const_iterator begin() const;
   const_iterator end() const;
