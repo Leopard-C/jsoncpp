@@ -105,7 +105,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4819;4996</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>../../include;../../include/jsoncpp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -128,7 +128,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4819;4996</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>../../include;../../include/jsoncpp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -151,7 +151,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4819;4996</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>../../include;../../include/jsoncpp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -174,7 +174,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4819;4996</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>../../include;../../include/jsoncpp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>

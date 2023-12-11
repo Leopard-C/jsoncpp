@@ -8,13 +8,13 @@ FLAGS = -O3
 all: bin/example.out lib/linux/libjsoncpp.a
 
 bin/example.out: example/main.cpp lib/linux/libjsoncpp.a
-	g++ -I./include -I./include/jsoncpp $(FLAGS) -o $@ example/main.cpp -L./lib/linux -ljsoncpp
+	g++ -I./include $(FLAGS) -o $@ example/main.cpp -L./lib/linux -ljsoncpp
 
 lib/linux/libjsoncpp.a: build/json_reader.o build/json_writer.o build/json_value.o
 	ar crv $@ $^
 
 build/%.o: src/lib_json/%.cpp
-	g++ -I./include/jsoncpp $(FLAGS) -o $@ -c $<
+	g++ -I./include $(FLAGS) -o $@ -c $<
 
 .PHONY: clean
 clean:
