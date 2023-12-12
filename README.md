@@ -52,7 +52,11 @@ void setSettings(const Json::Value& setting);
 ## 4.1 编译(Linux平台)
 
 ```shell
+# x86_64
 make
+
+# arm64(交叉编译)
+make CC=aarch64-linux-gnu-g++ AR=aarch64-linux-gnu-ar
 ```
 
 输出如下文件
