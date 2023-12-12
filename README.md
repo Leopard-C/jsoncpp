@@ -56,7 +56,7 @@ void setSettings(const Json::Value& setting);
 make
 
 # arm64(交叉编译)
-make CC=aarch64-linux-gnu-g++ AR=aarch64-linux-gnu-ar
+make CXX=aarch64-linux-gnu-g++ AR=aarch64-linux-gnu-ar ARCH=aarch64
 ```
 
 输出如下文件
